@@ -51,5 +51,34 @@ MongoDB.Driver ( dotnet add package MongoDB.Driver )
 docker build -t kannansdocker/catalogapi .
 docker run -p 8080:80 kannansdocker/catalogapi
 
+============================================================================
+dotnet new sln --name Basket.API
+mkdir services
+dotnet new webapi --name Basket.API
+cd ..
+dotnet sln .\dotnetrun-microservices.sln add .\services\Basket.API\Basket.API.csproj
+
+https://hub.docker.com/_/redis
+docker pull redis
+docker run -d -p 6379:6379 --name aspnetrun-redis redis
+
+docker exec -it aspnetrun-redis /bin/bash
+redis-cli
+set [key] [value]
+get [key]
+https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/6.0.0-preview.5.21301.17
+dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis
+https://www.nuget.org/packages/Newtonsoft.Json/
+dotnet add package Newtonsoft.Json
+
+> Nuget Package Manager GUI (on panel)
+
+"CacheSettings": {
+    "ConnectionString": "localhost:6379"
+}
+
+docker run -v redisinsight:/db -p 8001:8001 redislabs/redisinsight:latest
+
+
 
 

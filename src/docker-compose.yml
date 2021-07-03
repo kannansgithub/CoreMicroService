@@ -1,6 +1,12 @@
 # https://docs.docker.com/compose/compose-file/compose-file-v3/
 version: '3.9'
 services:
+  # ========================================================================
+  # Database Configurations
+  # ========================================================================
+
+  #  Mongo DB for Catalog API - https://hub.docker.com/_/mongo
+  # ------------------------------
   catalogdb:
     image: mongo
     container_name: catalogdb
@@ -9,6 +15,33 @@ services:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
+
+  #  Redis DB for Basket API - https://hub.docker.com/_/redis
+  # --------------------------
+  basket_redisdb:
+    image: redis:alpine
+    container_name: basket_redisdb
+    restart: always
+    ports:
+      - '6379:6379'
+  # Portainer to monitor docker containers - https://hub.docker.com/r/portainer/portainer-ce
+  # Doc: https://documentation.portainer.io/v2.0/deploy/ceinstalldocker/
+  # --------------------------
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - 8080:8000
+      - 9090:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+  # ========================================================================
+  # API Configuration
+  # ========================================================================
+  # Catalog API
+  # ------------
   catalog-api:
     container_name: catalog.api
     image: ${DOCKER_REGISTRAY-}catalogapi
@@ -20,10 +53,27 @@ services:
     depends_on:
       - catalogdb
     ports:
-      - '8000:80'
+      - '7000:80'
     build:
       context: .
       dockerfile: services/Catalog.API/Dockerfile
 
+  #  Basket API
+  # -------------
+  basket-api:
+    container_name: basket.api
+    image: ${DOCKER_REGISTRAY-}basketapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'CacheSettings:ConnectionString=basket_redisdb:6379'
+    depends_on:
+      - basket_redisdb
+    ports:
+      - '7001:80'
+    build:
+      context: .
+      dockerfile: services/Basket.API/Dockerfile
+
 volumes:
   mongo_data:
+  portainer_data:
