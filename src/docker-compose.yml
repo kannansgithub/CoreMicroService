@@ -1,0 +1,29 @@
+# https://docs.docker.com/compose/compose-file/compose-file-v3/
+version: '3.9'
+services:
+  catalogdb:
+    image: mongo
+    container_name: catalogdb
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+  catalog-api:
+    container_name: catalog.api
+    image: ${DOCKER_REGISTRAY-}catalogapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'DatabaseSettings:ConnectionString=mongodb://catalogdb:27017'
+      - 'DatabaseSettings:DatabaseName=ProductDB'
+      - 'DatabaseSettings:CollectionName=Products'
+    depends_on:
+      - catalogdb
+    ports:
+      - '8000:80'
+    build:
+      context: .
+      dockerfile: services/Catalog.API/Dockerfile
+
+volumes:
+  mongo_data:

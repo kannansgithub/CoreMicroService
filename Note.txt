@@ -1,3 +1,55 @@
 mkdir src
 cd src
 dotnet new sln --name [solution name]
+mkdir services
+dotnet new webapi --name Catalog.API
+cd ..
+dotnet sln .\dotnetrun-microservices.sln add  .\services\Catalog.API\Catalog.API.csproj
+https://hub.docker.com/
+Search mongo ( docker pull mongo )
+docker run -d -p 27017:27017 --name shopping-mongo mongo
+docker ps
+docker logs -f shopping-mongo
+docker exec -it shopping-mongo /bin/bash
+mongo
+show dbs
+use CatalogDB
+db.createCollection('Products')
+db.Products.insertMany(
+    [
+        {
+            'Name': 'Asus Laptop',
+            'Category': 'Computers',
+            'Summary':'Summary',
+            'Description':'Description',
+            'ImageFile':'ImageFile',
+            'Price': 56.95
+        },
+        {
+            'Name': 'HP Laptop',
+            'Category': 'Computers',
+            'Summary':'Summary',
+            'Description':'Description',
+            'ImageFile':'ImageFile',
+            'Price': 89.95
+        }
+    ]
+)
+db.Products.find({}).pretty();
+db.Products.remove({})
+show collections
+
+https://www.nuget.org/
+MongoDB.Driver ( dotnet add package MongoDB.Driver )
+
+"DatabaseSettings":{
+    "ConnectionString":"mongodb://localhost:27017",
+    "DatabaseName":"ProductDB",
+    "CollectionName":"Products"
+  },
+
+docker build -t kannansdocker/catalogapi .
+docker run -p 8080:80 kannansdocker/catalogapi
+
+
+
