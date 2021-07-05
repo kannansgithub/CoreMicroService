@@ -4,8 +4,7 @@ services:
   # ========================================================================
   # Database Configurations
   # ========================================================================
-
-  #  Mongo DB for Catalog API - https://hub.docker.com/_/mongo
+  # Mongo DB for Catalog API - https://hub.docker.com/_/mongo
   # ------------------------------
   catalogdb:
     image: mongo
@@ -37,6 +36,44 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+
+  #  Postgres DB for Discount API - https://hub.docker.com/_/postgres
+  # --------------------------
+  discount_postgresdb:
+    image: postgres:alpine
+    container_name: discount_postgresdb
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=DiscountDB
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  #  Postgres DB GUI to maintain the database for Discount API - https://hub.docker.com/r/dpage/pgadmin4
+  # --------------------------
+  postgresdb_gui:
+    image: dpage/pgadmin4
+    container_name: postgresdb_gui
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@dotnetmicro.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    ports:
+      - '5050:80'
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+  #  Postgres DB GUI to maintain the database for Discount API - https://hub.docker.com/r/dpage/pgadmin4
+  # --------------------------
+  redisdb_gui:
+    image: redislabs/redisinsight
+    container_name: redisdb_gui
+    restart: always
+    ports:
+      - '8001:8001'
+    volumes:
+      - redisinsight_data:/db
   # ========================================================================
   # API Configuration
   # ========================================================================
@@ -56,7 +93,7 @@ services:
       - '7000:80'
     build:
       context: .
-      dockerfile: services/Catalog.API/Dockerfile
+      dockerfile: services/Catalog/Catalog.API/Dockerfile
 
   #  Basket API
   # -------------
@@ -72,8 +109,25 @@ services:
       - '7001:80'
     build:
       context: .
-      dockerfile: services/Basket.API/Dockerfile
-
+      dockerfile: services/Basket/Basket.API/Dockerfile
+  # Catalog API
+  # ------------
+  dicount-api:
+    container_name: dicount.api
+    image: ${DOCKER_REGISTRAY-}dicountapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - 'DatabaseSettings:ConnectionString=Server=discount_postgresdb;Port=5432;Database=DiscountDB;User Id=admin;Password=admin1234;'
+    depends_on:
+      - discount_postgresdb
+    ports:
+      - '7002:80'
+    build:
+      context: .
+      dockerfile: services/Discount/Discount.API/Dockerfile
 volumes:
   mongo_data:
   portainer_data:
+  postgres_data:
+  pgadmin_data:
+  redisinsight_data:

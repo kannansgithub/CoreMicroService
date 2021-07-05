@@ -2,3 +2,5 @@ services\Catalog.API\bin\
 services\Catalog.API\obj\
 services\Basket.API\bin\
 services\Basket.API\obj\
+services\Discount.API\bin\
+services\Discount.API\obj\

@@ -52,8 +52,6 @@ docker build -t kannansdocker/catalogapi .
 docker run -p 8080:80 kannansdocker/catalogapi
 
 ============================================================================
-dotnet new sln --name Basket.API
-mkdir services
 dotnet new webapi --name Basket.API
 cd ..
 dotnet sln .\dotnetrun-microservices.sln add .\services\Basket.API\Basket.API.csproj
@@ -61,6 +59,8 @@ dotnet sln .\dotnetrun-microservices.sln add .\services\Basket.API\Basket.API.cs
 https://hub.docker.com/_/redis
 docker pull redis
 docker run -d -p 6379:6379 --name aspnetrun-redis redis
+
+https://hub.docker.com/r/redislabs/redisinsight
 
 docker exec -it aspnetrun-redis /bin/bash
 redis-cli
@@ -79,6 +79,24 @@ dotnet add package Newtonsoft.Json
 
 docker run -v redisinsight:/db -p 8001:8001 redislabs/redisinsight:latest
 
+============================================================================
+dotnet new webapi --name Discount.API
+dotnet sln .\dotnetrun-microservices.sln add .\services\Discount\Discount.API\Discount.API.csproj
+https://hub.docker.com/_/postgres
+docker pull postgres
 
+https://hub.docker.com/r/dpage/pgadmin4
+Doc: https://www.pgadmin.org/docs/pgadmin4/latest/index.html
+
+CREATE TABLE Coupon(
+	ID SERIAL PRIMARY KEY NOT NULL,
+	ProductName VARCHAR(50) NOT NULL,
+	Description TEXT,
+	Amount INT
+)
+
+----------------------------------------------------
+dotnet new grpc --name Discount.Grpc
+dotnet sln .\dotnetrun-microservices.sln add .\services\Discounts\Discount.Grpc\Discount.Grpc.csproj
 
 
