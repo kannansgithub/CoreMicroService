@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{7AE92EE6-56D0-42FF-8810-3C89C75F5662}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API", "services\Catalog.API\Catalog.API.csproj", "{4327C5FC-A4D5-4A65-88E6-C5511D62E9B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.API", "services\Catalog\Catalog.API\Catalog.API.csproj", "{4327C5FC-A4D5-4A65-88E6-C5511D62E9B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.API", "services\Basket.API\Basket.API.csproj", "{6ED62F70-D295-40D4-ADDE-350DC37CC7CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.API", "services\Basket\Basket.API\Basket.API.csproj", "{6ED62F70-D295-40D4-ADDE-350DC37CC7CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.API", "services\Discount.API\Discount.API.csproj", "{06577E62-1D96-4708-9C1A-7C28EB520440}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.API", "services\Discounts\Discount.API\Discount.API.csproj", "{06577E62-1D96-4708-9C1A-7C28EB520440}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discounts", "Discounts", "{AF7B40CA-967F-48D3-95BB-2A34645AFF1B}"
 EndProject

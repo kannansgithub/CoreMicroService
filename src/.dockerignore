@@ -1,6 +1,8 @@
-services\Catalog.API\bin\
-services\Catalog.API\obj\
-services\Basket.API\bin\
-services\Basket.API\obj\
-services\Discount.API\bin\
-services\Discount.API\obj\
+services\Catalog\Catalog.API\bin\
+services\Catalog\Catalog.API\obj\
+services\Basket\Basket.API\bin\
+services\Basket\Basket.API\obj\
+services\Discounts\Discount.API\bin\
+services\Discounts\Discount.API\obj\
+services\Discounts\Discount.Grpc\bin\
+services\Discounts\Discount.Grpc\obj\
